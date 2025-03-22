@@ -105,8 +105,7 @@ int main(int argc, char *argv[]) {
 					}
 
 					toBytes(hexNum,digitCount);
-
-					int binaryDigitCount = digitCount * 4;
+					
 					switch(*argv[3]){
 						case 'i': printf("  Result:%ld", signed_int(digitCount*4));
 							break;
