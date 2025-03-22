@@ -1,11 +1,43 @@
 #include <stdio.h>
+#include <string.h>
+int binary[32];
+void toBytes(char* hex,int size){// from hexadecimal to 1 & 0's
+	int correspondingInt = 0;
+	short binaryCounter = 0;
+	int i,j;
+	for(i = 0; i < size; i++){
+		if(hex[i] >= '0' && hex[i] <= '9'){
+			correspondingInt = hex[i] - '0';
+		}
+		else if(hex[i] >= 'A' && hex[i] <= 'F'){
+			correspondingInt = hex[i] - 'A' + 10;
+		}
+		else if(hex[i] >= 'a' && hex[i] <= 'f'){
+			correspondingInt = hex[i] - 'a' + 10;
+		}
+		else printf("Wrong character in file!!!");
 
-toBytes(){
-						 // from hexadecimal to 1 & 0's
+		for(j = 3; j >= 0; j--){
+			binary[binaryCounter] = correspondingInt>>j & 1;
+			binaryCounter++;
+		}
+	}					 
 } 
-reverse(){
-	printf("\nreverse");
+
+void reverse(char* hex,int size){
+	char temp[8];
+	int i,j;
+	char tempDgt;
+	for(i = size-1; i >= 0; i-=2){
+		int a = 1;
+		for(j = i - 1; j <= i ;j++){
+			temp[size - i - a] = hex[j];
+			a--;
+		}
+	}
+	strcpy(hex, temp);
 }
+
 signed_int(){
 	
 }
@@ -40,12 +72,20 @@ int main(int argc, char *argv[]) {
 			else{
 				hexNum[i] = hexDigit;
 				if(i + 1 == digitCount){
+					
 					if(*argv[2] == 'l'){
-						reverse();
+						reverse(hexNum,digitCount);
 					}
+					
+					int u;
+					printf("\n");
+					for(u=0; u < digitCount; u++){
+						printf("%c", hexNum[u]);
+					}
+					
+					toBytes(hexNum,digitCount);
 		
-					toBytes();
-		
+					int binaryDigitCount = digitCount * 4;
 					switch(*argv[3]){
 						case 'i': signed_int();
 							break;
@@ -54,7 +94,6 @@ int main(int argc, char *argv[]) {
 						case 'f': floating_point();
 							break;
 					}
-					
 					i = 0;
 				}
 				else i++;
