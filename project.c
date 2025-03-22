@@ -1,7 +1,29 @@
 #include <stdio.h>
+int binary[32];
+void toBytes(char* hex,int size){// from hexadecimal to 1 & 0's
+	int correspondingInt = 0;
+	short binaryCounter = 0;
+	int i;
+	int j;
+	for(i = 0; i < size; i++){
+		if(hex[i] >= '0' && hex[i] <= '9'){
+			correspondingInt = hex[i] - '0';
+		}
+		else if(hex[i] >= 'A' && hex[i] <= 'F'){
+			correspondingInt = hex[i] - 'A' + 10;
+		}
+		else if(hex[i] >= 'a' && hex[i] <= 'f'){
+			correspondingInt = hex[i] - 'a' + 10;
+		}
+		else printf("Wrong character in file!!!");
 
-toBytes(){
-						 // from hexadecimal to 1 & 0's
+		for(j = 3; j >= 0; j--){
+			binary[binaryCounter] = correspondingInt>>j & 1;
+			binaryCounter++;
+		}
+	}
+	
+						 
 } 
 reverse(){
 	printf("\nreverse");
@@ -44,7 +66,7 @@ int main(int argc, char *argv[]) {
 						reverse();
 					}
 		
-					toBytes();
+					toBytes(hexNum,digitCount);
 		
 					switch(*argv[3]){
 						case 'i': signed_int();
