@@ -2,6 +2,10 @@
 #include <string.h>
 int binary[32];
 void toBytes(char* hex,int size, int length){// from hexadecimal to 1 & 0's
+
+	printf("\n%s",hex);
+	printf("%c",hex[size-1]);
+
 	int correspondingInt = 0;
 	short binaryCounter = 0;
 	int i,j;
@@ -45,9 +49,9 @@ int isAllZeros(int start, int length) {
 	return 1;
 }
 void incrementBinary(int start) {
-	binary[start + 12] = 0;
+
 	int carry = 1;
-	for (int i = start+11; i >= start; i--) {
+	for (int i = start+12; i >= start; i--) {
 		if (carry == 0) break;
 		else if (binary[i] == 0 && carry) {
 			binary[i] = 1;
@@ -86,14 +90,13 @@ void reverse(char* hex,int size){
 	char temp[8];
 	int i,j;
 	char tempDgt;
-	for(i = size-1; i >= 0; i-=2){
-		int a = 1;
-		for(j = i - 1; j <= i ;j++){
-			temp[size - i - a] = hex[j];
-			a--;
-		}
+
+
+	for(i = size-1, j = 0; i > 0; i-=2, j++){
+		temp[j] = hex[i-1];
+		temp[++j] = hex[i];
 	}
-	strcpy(hex, temp);
+	toBytes(temp, size, size*4);
 }
 
 long signed_int(int numberLength){
@@ -151,7 +154,7 @@ double floating_point(int byte){
 	}
 	printf(" E:%d", E);
 	M += afterBinaryPoint(expLen+1,fracLen);
-	printf(" M:%.10lf", M);
+	printf(" M:%.13lf", M);
 	if(binary[0] == 1) {
 		if (E > 0)
 			result = -1*M*(1<<E);
@@ -195,21 +198,15 @@ int main(int argc, char *argv[]) {
 					if(*argv[2] == 'l'){
 						reverse(hexNum,digitCount);
 					}
-
-					int u;
-					printf("\n");
-					for(u=0; u < digitCount; u++){
-						printf("%c", hexNum[u]);
-					}
-
-					toBytes(hexNum,digitCount, digitCount*4);
+					else
+						toBytes(hexNum,digitCount, digitCount*4);
 
 					switch(*argv[3]){
 						case 'i': printf("  Result:%ld", signed_int(digitCount*4));
 							break;
 						case 'u': printf("  Result:%u", unsigned_int(0, digitCount*4));
 							break;
-						case 'f': printf("  Result:%.10lf", floating_point(digitCount/2));
+						case 'f': printf("  Result:%.13lf", floating_point(digitCount/2));
 							break;
 					}
 					i = 0;
