@@ -21,8 +21,12 @@ void toBytes(char* hex,int size){// from hexadecimal to 1 & 0's
 			binary[binaryCounter] = correspondingInt>>j & 1;
 			binaryCounter++;
 		}
-	}					 
-} 
+	}
+	printf("  ");
+	for (i = 0; i < 32; i++) {
+		printf("%d ", binary[i]);
+	}
+}
 
 void reverse(char* hex,int size){
 	char temp[8];
@@ -38,17 +42,37 @@ void reverse(char* hex,int size){
 	strcpy(hex, temp);
 }
 
-signed_int(){
-	
+long signed_int(int numberLength){
+	printf(" Length:%d", numberLength);
+	int power = numberLength - 1;
+	long result = 0;
+	int i;
+	for(i = 0; i < numberLength; i++) {
+		if (i == 0)
+			result -= binary[i] << power;
+		else
+			result += binary[i] << power;
+		power--;
+	}
+	return result;
 }
-unsigned_int(){
-	
+
+unsigned int unsigned_int(int numberLength){
+	printf(" Length:%d", numberLength);
+	int power = numberLength - 1;
+	unsigned int result = 0;
+	int i;
+	for(i = 0; i < numberLength; i++) {
+		result += binary[i] << power;
+		power--;
+	}
+	return result;
 }
-floating_point(){
+void floating_point(){
 	printf("\nfloat");
 }
-round(){
-	
+void round_(){
+
 }
 
 int main(int argc, char *argv[]) {
@@ -63,7 +87,7 @@ int main(int argc, char *argv[]) {
 	}
 	else {
 		int digitCount = (*argv[4] - '0') * 2; 		//how many digit are used for our numbers. (byte number * 2)
-														//also, the number of exponent bits in floating points is according to this.			
+														//also, the number of exponent bits in floating points is according to this.
 		char hexDigit;
 		char hexNum[8];
 		int i = 0;
@@ -72,24 +96,23 @@ int main(int argc, char *argv[]) {
 			else{
 				hexNum[i] = hexDigit;
 				if(i + 1 == digitCount){
-					
+
 					if(*argv[2] == 'l'){
 						reverse(hexNum,digitCount);
 					}
-					
+
 					int u;
 					printf("\n");
 					for(u=0; u < digitCount; u++){
 						printf("%c", hexNum[u]);
 					}
-					
+
 					toBytes(hexNum,digitCount);
-		
-					int binaryDigitCount = digitCount * 4;
+					
 					switch(*argv[3]){
-						case 'i': signed_int();
+						case 'i': printf("  Result:%ld", signed_int(digitCount*4));
 							break;
-						case 'u': unsigned_int();
+						case 'u': printf("  Result:%u", unsigned_int(digitCount*4));
 							break;
 						case 'f': floating_point();
 							break;
@@ -97,7 +120,7 @@ int main(int argc, char *argv[]) {
 					i = 0;
 				}
 				else i++;
-			}				
+			}
 		}
 	}
 }
