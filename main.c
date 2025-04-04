@@ -239,14 +239,13 @@ int main(int argc, char *argv[]) {
 					else
 						toBytes(hexNum,digitCount, digitCount*4);
 
-					switch(*argv[3]){
-						case 'i': printf("  Result:%ld", signed_int(digitCount*4));
-							break;
-						case 'u': printf("  Result:%u", unsigned_int(0, digitCount*4));
-							break;
-						case 'f': printf("  Result:%.13lf", floating_point(digitCount/2));
-							break;
-					}
+					if (*argv[3] == 'i') 
+    						signed_int(digitCount * 4); 
+					else if (*argv[3] == 'u') 
+    						unsigned_int(0, digitCount * 4);
+					else if (strcmp(argv[3], "fp") == 0) 
+    						floating_point(digitCount / 2);
+					
 					i = 0;
 				}
 				else i++;
